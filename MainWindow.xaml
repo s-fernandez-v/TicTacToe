@@ -1,0 +1,76 @@
+﻿<Window x:Class="TicTacToe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        xmlns:local="clr-namespace:TicTacToe"
+        Title="MainWindow">
+    <Window.Resources>
+        <ControlTemplate x:Key="Template.Cell" TargetType="ToggleButton">
+            <Border BorderBrush="Gray" BorderThickness="1" Background="Transparent">
+                <ContentPresenter x:Name="presenter" Visibility="Hidden" Margin="10"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="presenter" Property="Visibility" Value="Visible"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="Style.Cell" TargetType="ToggleButton">
+            <Setter Property="Content" Value=" "/>
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="Template" Value="{StaticResource Template.Cell}"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding Player}" Value="Player1">
+                    <Setter Property="Content" Value="O"/>
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Player}" Value="Player2">
+                    <Setter Property="Content" Value="X"/>
+                    <Setter Property="Foreground" Value="Blue"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="Style.Board" TargetType="UniformGrid">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="Playing">
+                    <Setter Property="IsEnabled" Value="True"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Text="Tic Tac Toe" FontSize="50"/>
+        <Button Content="Start Game" Command="{Binding StartGame}" Margin="0,10"/>
+        <TextBlock Text="{Binding PlayerPlaying}" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+        <UniformGrid Rows="3" Columns="3" Style="{StaticResource Style.Board}">
+            <ToggleButton DataContext="{Binding Board[0]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+            <ToggleButton DataContext="{Binding Board[1]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+            <ToggleButton DataContext="{Binding Board[2]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+            <ToggleButton DataContext="{Binding Board[3]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+            <ToggleButton DataContext="{Binding Board[4]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+            <ToggleButton DataContext="{Binding Board[5]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+            <ToggleButton DataContext="{Binding Board[6]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+            <ToggleButton DataContext="{Binding Board[7]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+            <ToggleButton DataContext="{Binding Board[8]}" IsChecked="{Binding IsChecked}" Style="{StaticResource Style.Cell}"/>
+        </UniformGrid>
+        <UniformGrid Columns="3" Margin="0,10,0,0">
+            <StackPanel>
+                <TextBlock Text="Player1" HorizontalAlignment="Center" FontSize="16"/>
+                <TextBlock Text="{Binding ScorePlayer1, FallbackValue=0}" HorizontalAlignment="Center" FontSize="16"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Ties" HorizontalAlignment="Center" FontSize="16"/>
+                <TextBlock Text="{Binding ScoreTies, FallbackValue=0}" HorizontalAlignment="Center" FontSize="16"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Player2" HorizontalAlignment="Center" FontSize="16"/>
+                <TextBlock Text="{Binding ScorePlayer2, FallbackValue=0}" HorizontalAlignment="Center" FontSize="16"/>
+            </StackPanel>
+        </UniformGrid>
+    </StackPanel>
+</Window>
